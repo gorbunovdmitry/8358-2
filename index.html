@@ -103,13 +103,11 @@
   .card .logo svg{ width:18px; height:23px; display:block; }
   .card .card-kind{ font-size:12px; line-height:16px; opacity:.85; }
   .card .num{ font-size:14px; letter-spacing:.06em; font-variant-numeric:tabular-nums; }
-  .card .mir{ font-size:13px; font-weight:700; font-style:italic; letter-spacing:.02em; }
   .card.muted{ background:#c9cad0; color:#fff; }
   .card.small{ max-width:none; padding:10px 12px; border-radius:12px; }
   .card.small .logo svg{ width:14px; height:18px; }
   .card.small .num{ font-size:11px; letter-spacing:0; }
-  .card.small .mir{ font-size:10px; }
-  .card .num, .card .mir{ white-space:nowrap; }
+  .card .num{ white-space:nowrap; }
   .card .card-bottom{ align-items:flex-end; gap:6px; }
   .stage-chart .card.small, .stage-feed .card{ max-width:240px; }
   .stage-chart .card.small{ max-width:132px; align-self:flex-start; }
@@ -389,7 +387,7 @@
     opts = opts || {};
     return h('div', { class:'card' + (opts.muted ? ' muted' : '') + (opts.small ? ' small' : '') }, [
       h('div', { class:'card-top' }, [ h('span', { class:'logo', html: LOGO }), opts.small ? null : h('span', { class:'card-kind', text: opts.muted ? 'Основная' : 'Агентская · виртуальная' }) ]),
-      h('div', { class:'card-bottom' }, [ h('span', { class:'num', text: opts.muted ? '·· 4821' : '·· 0000' }), h('span', { class:'mir', text:'МИР' }) ])
+      h('div', { class:'card-bottom' }, [ h('span', { class:'num', text: opts.muted ? '·· 4821' : '·· 0000' }) ])
     ]);
   }
   // Пуш банка — как системное уведомление: иконка приложения, отправитель, время.
