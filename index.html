@@ -271,7 +271,7 @@
   'use strict';
   // ====== КОНФИГ ВАРИАНТА — подставляет build.py ======
   var CONFIG = {"exp": "8358", "num": 2, "offer": "B", "hero": {"title": "ИИ купит, когда цена упадет", "sub": "Скажите, что хотите и за сколько. Помощник будет следить за ценами и купит сам, как только цена станет подходящей", "chips": ["Следит за ценой круглосуточно", "Не превысит ваш потолок цены", "Покупает только в разрешенных магазинах"], "visual": "chart"}, "example": {"rule": "Разовая покупка · потолок 12 000 ₽ · рейтинг от 4,8", "items": [{"t": "user", "text": "Хочу беспроводные наушники с шумоподавлением, рейтинг от 4,8. Купи, когда будут не дороже 12 000 ₽"}, {"t": "bot", "when": "через 9 дней", "text": "Цена упала до 11 490 ₽ — купил и оплатил Агентской картой. В день вашего запроса они стоили 13 990 ₽"}, {"t": "notif", "text": "Агентская карта · Покупка 11 490 ₽ · Ниже вашего потолка на 510 ₽"}], "caption": "Вы не мониторите цены сами — помощник ловит момент за вас"}, "footerExtra": "", "cashbackX": "X%", "cashbackY": "Y%", "bonus": ""}; // BUILD:CONFIG
-  var WEBHOOK_URL = "PASTE_APPS_SCRIPT_URL"; // BUILD:WEBHOOK
+  var WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby_igofnjSMwIj4le0MnCB_M5uSqy_eWEtIAxTyY-a6vi_nHVbyDsvsjwTKTTFvTTW7/exec"; // BUILD:WEBHOOK
 
   var EXP = CONFIG.exp, VAR = CONFIG.num, OFFER = CONFIG.offer;
   var X = CONFIG.cashbackX, Y = CONFIG.cashbackY;
