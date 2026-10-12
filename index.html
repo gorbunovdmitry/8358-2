@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Агентская карта</title>
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VNG605KE2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date()); gtag('config', 'G-VNG605KE2R');
+</script>
+<!-- Яндекс.Метрика -->
+<script>
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+  ym(96171108, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true });
+</script>
+
+<style>
+  /* Экран продукта в приложении Альфы: серый фон, белые группы со скруглением 24,
+     ячейки списка с разделителями. Токены — core-ds/core-components (bluetint, superapp),
+     шапка и заглушка — как в 8094 и 8240. */
+  :root{
+    --page:#f2f3f5;                                /* bg-secondary — фон экрана */
+    --surface:#ffffff;                             /* группы */
+    --fill:#f2f3f5;                                /* плашки внутри группы */
+    --fill-2:#e7e8ea;                              /* bg-tertiary */
+    --tint:rgba(38,55,88,.06);                     /* neutral-translucent-100 */
+    --tint-3:rgba(15,25,55,.1);                    /* neutral-translucent-300 */
+    --text:rgba(3,3,6,.88);                        /* text-primary */
+    --text-2:rgba(4,4,19,.55);                     /* text-secondary */
+    --text-3:rgba(5,8,29,.38);                     /* text-tertiary */
+    --graphite:#212124;                            /* accent-secondary: основная кнопка, выбор */
+    --line:#e7e8ec;                                /* border-secondary */
+    --line-2:#d5d6dc;                              /* border-primary */
+    --red:#ef3124;                                 /* accent-primary: только бренд */
+    --pos:#0cc44d; --pos-bg:#dff8e5;
+    --neg:#ff4837; --neg-bg:#ffebeb;
+    --font:system-ui, -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
+    --font-head:"Styrene UI", system-ui, -apple-system, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
+    color-scheme:light;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; background:var(--page); color:var(--text); }
+  body{ font-family:var(--font); font-size:16px; line-height:24px; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  body.white, body.white .header{ background:var(--surface); }
+  button{ font-family:inherit; color:inherit; }
+  ul,ol{ list-style:none; margin:0; padding:0; }
+  [hidden]{ display:none !important; }
+
+  /* ── шапка ── */
+  .header{ position:sticky; top:0; z-index:6; display:flex; align-items:center; justify-content:center;
+           padding:calc(env(safe-area-inset-top) + 6px) 48px 10px; background:var(--page); }
+  .header .back{ position:absolute; left:8px; bottom:6px; width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+                 border:0; background:transparent; cursor:pointer; border-radius:50%; }
+  .header .title{ font-size:17px; line-height:22px; font-weight:600; }
+  .screen{ max-width:480px; margin:0 auto; padding:4px 12px calc(env(safe-area-inset-bottom) + 128px); }
+
+  /* ── типографика: шкала headline-mobile, вес 500 ── */
+  h1{ font-family:var(--font-head); font-size:30px; line-height:36px; font-weight:500; letter-spacing:-.01em; margin:0 0 10px; text-wrap:balance; }
+  h2{ font-family:var(--font-head); font-size:20px; line-height:28px; font-weight:500; margin:0 0 12px; text-wrap:balance; }
+  .screen-title{ font-size:26px; line-height:32px; margin:0 4px 8px; }
+  .sub{ font-size:16px; line-height:24px; color:var(--text-2); margin:0 0 16px; }
+  .micro{ font-size:13px; line-height:16px; color:var(--text-3); text-align:center; margin:10px 0 0; }
+  .eyebrow{ display:flex; align-items:center; gap:8px; font-size:14px; line-height:20px; color:var(--text-2); margin:0 0 8px; }
+  .badge{ font-size:11px; line-height:16px; font-weight:600; letter-spacing:.02em; text-transform:uppercase; color:var(--red); background:#feeceb; border-radius:6px; padding:1px 6px; }
+
+  /* ── группы ── */
+  .group{ background:var(--surface); border-radius:24px; padding:20px 16px; margin:0 0 12px; }
+  .hero{ padding:8px 8px 16px; }
+  .hero-text{ padding:16px 8px 4px; }
+  .hero .btn{ margin:12px 0 0; }
+
+  /* ── кнопки: основная — графит, радиус 16, высота 56 ── */
+  .btn{ display:flex; align-items:center; justify-content:center; width:100%; min-height:56px; border:0; border-radius:16px; padding:0 20px;
+        font-size:16px; line-height:24px; font-weight:500; background:var(--graphite); color:#fff; cursor:pointer; }
+  .btn:active{ opacity:.85; }
+  .btn:disabled{ background:var(--fill-2); color:var(--text-3); cursor:default; opacity:1; }
+  .btn.ghost{ background:transparent; color:var(--text); min-height:48px; }
+  .btn:focus-visible,.opt:focus-visible,.faq summary:focus-visible,.header .back:focus-visible{ outline:2px solid var(--graphite); outline-offset:2px; }
+  .sticky{ position:fixed; left:0; right:0; bottom:0; padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);
+           background:var(--surface); box-shadow:0 -1px 0 var(--line); transform:translateY(110%); transition:transform .25s; z-index:5; }
+  .sticky.on{ transform:none; }
+  .sticky .btn{ max-width:456px; margin:0 auto; }
+  @media (prefers-reduced-motion: reduce){ .sticky{ transition:none; } }
+
+  /* ── чипы под подзаголовком: строки с галочкой, без «таблеток» ── */
+  .tags{ display:flex; flex-direction:column; gap:6px; margin:0 0 4px; }
+  .tags li{ position:relative; padding-left:24px; font-size:15px; line-height:20px; }
+  .tags li::before{ content:""; position:absolute; left:3px; top:4px; width:10px; height:6px; border-left:2px solid var(--graphite); border-bottom:2px solid var(--graphite); transform:rotate(-45deg); }
+
+  /* ── сцена hero: светло-серая подложка, на ней карта и детали сценария ── */
+  .stage{ background:var(--fill); border-radius:20px; padding:20px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; overflow:hidden; }
+  .card{ width:100%; max-width:264px; aspect-ratio:1.586; border-radius:16px; padding:14px 16px; background:var(--red); color:#fff;
+         display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .card .card-top, .card .card-bottom{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .card .logo svg{ width:18px; height:23px; display:block; }
+  .card .card-kind{ font-size:12px; line-height:16px; opacity:.85; }
+  .card .num{ font-size:14px; letter-spacing:.06em; font-variant-numeric:tabular-nums; }
+  .card .mir{ font-size:13px; font-weight:700; font-style:italic; letter-spacing:.02em; }
+  .card.muted{ background:#c9cad0; color:#fff; }
+  .card.small{ max-width:none; padding:10px 12px; border-radius:12px; }
+  .card.small .logo svg{ width:14px; height:18px; }
+  .card.small .num{ font-size:11px; letter-spacing:0; }
+  .card.small .mir{ font-size:10px; }
+  .card .num, .card .mir{ white-space:nowrap; }
+  .card .card-bottom{ align-items:flex-end; gap:6px; }
+  .stage-chart .card.small, .stage-feed .card{ max-width:240px; }
+  .stage-chart .card.small{ max-width:132px; align-self:flex-start; }
+  .stack{ width:100%; display:flex; flex-direction:column; gap:6px; }
+
+  /* пуш банка */
+  .push{ display:flex; gap:10px; align-items:flex-start; width:100%; background:rgba(255,255,255,.92); border-radius:16px; padding:10px 12px;
+         box-shadow:0 1px 2px rgba(0,0,0,.05); text-align:left; }
+  .group .push{ background:var(--fill); box-shadow:none; }
+  .stage .push{ background:var(--surface); box-shadow:0 1px 2px rgba(0,0,0,.05); }
+  .app-icon{ flex:0 0 32px; height:32px; border-radius:8px; background:var(--red); color:#fff; display:grid; place-items:center; }
+  .app-icon svg{ width:13px; height:17px; display:block; }
+  .push-body{ min-width:0; flex:1; }
+  .push-head{ display:flex; justify-content:space-between; gap:8px; font-size:13px; line-height:16px; }
+  .push-head b{ font-weight:600; }
+  .push-head span{ color:var(--text-3); }
+  .push-text{ font-size:14px; line-height:20px; margin-top:2px; }
+  /* иконка приложения всегда красная, статус — значком у времени */
+  .push.ok .push-head span::before{ content:"✓ "; color:var(--pos); }
+  .push.bad .push-head span::before{ content:"✕ "; color:var(--neg); }
+
+  /* график цены */
+  .chart{ width:100%; background:var(--surface); border-radius:16px; padding:12px 12px 10px; }
+  .chart-head{ display:flex; justify-content:space-between; font-size:13px; line-height:16px; color:var(--text-2); margin-bottom:4px; }
+  .chart-head b{ color:var(--text); font-weight:600; }
+  .chart svg{ display:block; width:100%; height:auto; }
+  .chart-foot{ font-size:13px; line-height:16px; font-weight:600; text-align:right; margin-top:2px; }
+
+  /* две карты */
+  .pair{ width:100%; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .pair-col{ min-width:0; display:flex; flex-direction:column; gap:8px; }
+  .owner{ display:flex; align-items:center; gap:6px; font-size:13px; line-height:16px; color:var(--text-2); }
+  .owner svg{ width:14px; height:14px; flex:0 0 14px; }
+  .rules{ display:flex; flex-direction:column; background:var(--surface); border-radius:12px; padding:2px 10px; }
+  .rules li{ font-size:12px; line-height:16px; padding:7px 0; border-bottom:1px solid var(--line); }
+  .rules li:last-child{ border-bottom:0; }
+
+  /* счётчик кэшбэка */
+  .counter{ width:100%; max-width:264px; background:var(--surface); border-radius:16px; padding:12px 14px; display:grid; gap:2px; }
+  .counter span{ font-size:13px; line-height:16px; color:var(--text-2); }
+  .counter b{ font-family:var(--font-head); font-size:26px; line-height:32px; font-weight:500; font-variant-numeric:tabular-nums; }
+  .counter small{ font-size:12px; line-height:16px; color:var(--text-3); }
+
+  /* ── как это работает: степпер с линией ── */
+  .stepper li{ position:relative; display:grid; grid-template-columns:28px 1fr; gap:14px; padding-bottom:18px; }
+  .stepper li:last-child{ padding-bottom:0; }
+  .stepper li:not(:last-child)::before{ content:""; position:absolute; left:13px; top:30px; bottom:2px; width:2px; background:var(--line); }
+  .stepper .n{ width:28px; height:28px; border-radius:50%; border:1.5px solid var(--graphite); font-size:14px; line-height:25px; text-align:center; font-weight:500; }
+  .stepper b{ display:block; font-weight:500; line-height:22px; margin-top:2px; }
+  .stepper p{ margin:2px 0 0; color:var(--text-2); font-size:14px; line-height:20px; }
+
+  /* ── пример из жизни ── */
+  .rule{ display:inline-block; font-size:13px; line-height:16px; color:var(--text-2); background:var(--fill); padding:6px 10px; border-radius:8px; margin-bottom:14px; }
+  .thread{ display:flex; flex-direction:column; gap:8px; }
+  .bubble{ max-width:86%; padding:10px 14px; border-radius:18px; font-size:15px; line-height:20px; }
+  .bubble.user{ align-self:flex-end; background:var(--graphite); color:#fff; border-bottom-right-radius:6px; }
+  .bubble.bot{ align-self:flex-start; background:var(--fill); border-bottom-left-radius:6px; }
+  .bubble .who{ display:block; font-size:12px; line-height:16px; color:var(--text-3); margin-bottom:2px; }
+  .confirm{ background:var(--fill); border-radius:16px; padding:12px; font-size:14px; line-height:20px; }
+  .confirm .push-head{ margin-bottom:4px; }
+  .confirm .acts{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; pointer-events:none; }
+  .confirm .acts span{ text-align:center; padding:9px; border-radius:12px; font-weight:500; background:var(--surface); }
+  .confirm .acts span:last-child{ background:var(--graphite); color:#fff; }
+  .compare{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .compare div{ border-radius:16px; padding:12px; background:var(--fill); min-width:0; display:grid; gap:2px; }
+  .compare div.hi{ background:var(--graphite); color:#fff; }
+  .compare span{ font-size:12px; line-height:16px; color:var(--text-2); }
+  .compare div.hi span, .compare div.hi small{ color:rgba(255,255,255,.7); }
+  .compare b{ font-family:var(--font-head); font-size:20px; line-height:28px; font-weight:500; }
+  .compare small{ font-size:13px; line-height:16px; color:var(--text-2); }
+  .caption{ font-size:14px; line-height:20px; color:var(--text-2); margin:12px 0 0; }
+
+  /* ── вы под контролем: ячейки списка ── */
+  /* разделитель — только под текстом, от левого края текста, как в списках приложения */
+  .cells li{ display:grid; grid-template-columns:40px 1fr; gap:12px; }
+  .cells li > div{ padding:12px 0; min-width:0; }
+  .cells li + li > div{ border-top:1px solid var(--line); }
+  .cells .ico{ align-self:center; width:40px; height:40px; border-radius:50%; background:var(--fill); display:grid; place-items:center; color:var(--graphite); }
+  .cells .ico svg{ width:20px; height:20px; display:block; }
+  .cells b{ display:block; font-weight:500; line-height:22px; }
+  .cells span:not(.ico){ display:block; font-size:14px; line-height:20px; color:var(--text-2); }
+
+  /* ── FAQ ── */
+  .faq + .faq{ border-top:1px solid var(--line); }
+  .faq summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; font-weight:500; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary i{ color:var(--text-3); display:grid; transition:transform .2s; }
+  .faq[open] summary i{ transform:rotate(180deg); }
+  .faq p{ margin:0 0 14px; color:var(--text-2); font-size:14px; line-height:20px; }
+
+  .footer{ font-size:12px; line-height:16px; color:var(--text-3); padding:4px 8px 0; }
+  .footer p{ margin:0 0 6px; }
+
+  /* ── конструктор ── */
+  .progress{ display:flex; gap:4px; margin:4px 4px 16px; }
+  .progress i{ flex:1; height:4px; border-radius:2px; background:var(--fill-2); }
+  .progress i.on{ background:var(--graphite); }
+  .stepno{ font-size:14px; line-height:20px; color:var(--text-2); margin:0 4px 4px; }
+  .screen > .sub{ margin:0 4px 12px; }
+  .list{ background:var(--surface); border-radius:24px; padding:4px 16px; margin:8px 0 12px; }
+  .opt{ display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; text-align:left; border:0; background:transparent;
+        padding:14px 0; font-size:16px; line-height:22px; cursor:pointer; min-height:56px; }
+  .opt + .opt, .inline-amount + .opt{ border-top:1px solid var(--line); }
+  .opt .mark{ flex:0 0 24px; height:24px; border-radius:7px; border:2px solid var(--line-2); display:grid; place-items:center; }
+  .opt.radio .mark{ border-radius:50%; }
+  .opt[aria-pressed="true"] .mark{ border-color:var(--graphite); background:var(--graphite); }
+  .opt[aria-pressed="true"] .mark::after{ content:""; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:translateY(-1px) rotate(-45deg); }
+  .opt.radio[aria-pressed="true"] .mark{ background:var(--surface); border-width:7px; }
+  .opt.radio[aria-pressed="true"] .mark::after{ display:none; }
+  .field{ width:100%; border:0; border-radius:16px; padding:16px; font-size:16px; line-height:24px; font-family:inherit; color:var(--text); background:var(--surface); }
+  .list .field{ background:var(--fill); }
+  .field::placeholder{ color:var(--text-3); }
+  .field:focus{ outline:2px solid var(--graphite); }
+  .inline-amount{ padding:0 0 12px; }
+  .inline-amount .field{ padding:12px 14px; }
+  .sliders{ padding:8px 16px; }
+  .slider{ padding:14px 0; }
+  .slider + .slider{ border-top:1px solid var(--line); }
+  .slider label{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:10px; }
+  .slider label span{ color:var(--text-2); font-size:15px; }
+  .slider label b{ font-family:var(--font-head); font-size:20px; line-height:28px; font-weight:500; font-variant-numeric:tabular-nums; }
+  .slider input{ width:100%; accent-color:var(--graphite); }
+  .slider .ends{ display:flex; justify-content:space-between; font-size:12px; line-height:16px; color:var(--text-3); margin-top:4px; }
+  .actions{ position:fixed; left:0; right:0; bottom:0; background:var(--surface); padding:10px 12px calc(env(safe-area-inset-bottom) + 6px);
+            box-shadow:0 -1px 0 var(--line); z-index:5; }
+  .actions .in{ max-width:456px; margin:0 auto; display:flex; flex-direction:column; gap:2px; }
+
+  /* ── цена ── */
+  .summary-card{ background:var(--surface); border-radius:24px; padding:16px; margin:8px 0 12px; display:grid; grid-template-columns:96px 1fr; gap:16px; align-items:start; }
+  .summary-card .card{ max-width:96px; }
+  .summary{ margin:0; display:grid; grid-template-columns:auto; gap:0; }
+  .summary dt{ font-size:12px; line-height:16px; color:var(--text-3); }
+  .summary dd{ margin:0 0 8px; font-size:15px; line-height:20px; font-weight:500; }
+  .summary dd:last-child{ margin-bottom:0; }
+  .price{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:16px 0; }
+  .price span{ color:var(--text-2); }
+  .price b{ font-weight:600; text-align:right; }
+
+  /* ── финал: как экран-заглушка 8240 ── */
+  .final-head{ text-align:center; min-height:calc(100dvh - 180px); display:flex; flex-direction:column; justify-content:center; padding:16px 8px; }
+  .final-head .icon{ margin:0 auto 16px; width:96px; }
+  .final-head h2{ font-size:22px; line-height:28px; margin:0 0 8px; }
+  .final-head p{ margin:0 auto; max-width:320px; font-size:16px; line-height:22px; color:var(--text-2); }
+
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="back" id="backBtn" aria-label="Назад">
+    <svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true"><path d="M10 2 L2 10 L10 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="title">Агентская карта</div>
+</header>
+<div id="app"></div>
+<div id="sticky" class="sticky"><button class="btn" data-cta="sticky">Собрать свою карту</button></div>
+
+<script>
+(function(){
+  'use strict';
+  // ====== КОНФИГ ВАРИАНТА — подставляет build.py ======
+  var CONFIG = {"exp": "8358", "num": 2, "offer": "B", "hero": {"title": "ИИ купит, когда цена упадет", "sub": "Скажите, что хотите и за сколько. Помощник будет следить за ценами и купит сам, как только цена станет подходящей", "chips": ["Следит за ценой круглосуточно", "Не превысит ваш потолок цены", "Покупает только в разрешенных магазинах"], "visual": "chart"}, "example": {"rule": "Разовая покупка · потолок 12 000 ₽ · рейтинг от 4,8", "items": [{"t": "user", "text": "Хочу беспроводные наушники с шумоподавлением, рейтинг от 4,8. Купи, когда будут не дороже 12 000 ₽"}, {"t": "bot", "when": "через 9 дней", "text": "Цена упала до 11 490 ₽ — купил и оплатил Агентской картой. В день вашего запроса они стоили 13 990 ₽"}, {"t": "notif", "text": "Агентская карта · Покупка 11 490 ₽ · Ниже вашего потолка на 510 ₽"}], "caption": "Вы не мониторите цены сами — помощник ловит момент за вас"}, "footerExtra": "", "cashbackX": "X%", "cashbackY": "Y%", "bonus": ""}; // BUILD:CONFIG
+  var WEBHOOK_URL = "PASTE_APPS_SCRIPT_URL"; // BUILD:WEBHOOK
+
+  var EXP = CONFIG.exp, VAR = CONFIG.num, OFFER = CONFIG.offer;
+  var X = CONFIG.cashbackX, Y = CONFIG.cashbackY;
+  var TEST_MODE = /[?&]test=1(&|$)/.test(location.search);
+
+  // ── хранилище с защитой: в приватном режиме и превью оно может бросать ──
+  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  var K = function(name){ return 'alfa' + EXP + '_' + name + '_var' + VAR; };
+
+  // ── автоматические браузеры: страница работает, но молчит ──
+  var BOT = (function(){
+    try{
+      if(navigator.webdriver) return true;
+      return /headless|phantom|puppeteer|playwright|bot|crawler|spider|curl|wget|python|node-fetch/i.test(navigator.userAgent || '');
+    }catch(e){ return false; }
+  })();
+
+  // ── идентификаторы и разрезы ──
+  function rid(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  var CID = lsGet('alfa' + EXP + '_cid') || rid(); lsSet('alfa' + EXP + '_cid', CID);
+  var SID = 's' + rid();
+  var qs = new URLSearchParams(location.search);
+  // Сегмент и канал передаёт платформа в ссылке: ?seg=ai_early&ch=tile. Запоминаем —
+  // при повторном заходе без параметров разрез не теряется.
+  var SEG = qs.get('seg') || lsGet('alfa' + EXP + '_seg') || '';
+  var CH  = qs.get('ch')  || lsGet('alfa' + EXP + '_ch')  || '';
+  if(qs.get('seg')) lsSet('alfa' + EXP + '_seg', SEG);
+  if(qs.get('ch'))  lsSet('alfa' + EXP + '_ch', CH);
+
+  // Обслуживание одинаковое во всех вариантах
+  var PRICE_TEXT = 'Бесплатно';
+
+  // ====== АНАЛИТИКА ======
+  // ГА — корпоративный: свои параметры там не зарегистрировать, поэтому разрезы
+  // зашиты в имя события. Метрика и таблица получают все параметры.
+  var YM_ID = 96171108;
+  var base = { exp:EXP, variant:VAR, offer:OFFER, seg:SEG, ch:CH, cid:CID, sid:SID };
+  function gaName(ev, suffix){ return EXP + '_' + ev + (suffix ? '_' + suffix : '') + '_var' + VAR; }
+  function send(ev, params, suffix, rowOnly){
+    if(BOT) return;
+    var n = gaName(ev, suffix);
+    var p = {}; for(var a in base) p[a] = base[a]; for(var b in (params||{})) p[b] = params[b];
+    if(!rowOnly){
+      try{ if(typeof window.gtag === 'function') window.gtag('event', n); }catch(e){}
+      try{ if(typeof window.ym === 'function') window.ym(YM_ID, 'reachGoal', n, p); }catch(e){}
+    }
+    row(n, p);
+  }
+  // В ГА и Метрику событие уходит один раз на человека (воронка в людях),
+  // в таблицу — при каждом повторе, чтобы не терять ответы повторного прохода.
+  var FIRED_KEY = K('fired'), fired = {};
+  try{ fired = TEST_MODE ? {} : JSON.parse(lsGet(FIRED_KEY) || '{}'); }catch(e){ fired = {}; }
+  function once(ev, params, suffix){
+    var n = gaName(ev, suffix);
+    var dup = !!fired[n];
+    if(!dup){ fired[n] = 1; if(!TEST_MODE) lsSet(FIRED_KEY, JSON.stringify(fired)); }
+    send(ev, params, suffix, dup);
+  }
+  function row(ev, p){
+    var line = { event:ev, step:p.step || '', value:p.value != null ? p.value : '', text:p.text || '',
+                 offer:OFFER, variant:VAR, seg:SEG, ch:CH, cid:CID, sid:SID, test:TEST_MODE ? 1 : 0 };
+    for(var k in p) if(!(k in line) && !(k in base)) line[k] = p[k];
+    if(!WEBHOOK_URL || WEBHOOK_URL.indexOf('PASTE_') === 0){ console.log('[' + EXP + ']', ev, JSON.stringify(line)); return; }
+    try{
+      fetch(WEBHOOK_URL, { method:'POST', mode:'no-cors', keepalive:true,
+        headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body: JSON.stringify(line) }).catch(function(){});
+    }catch(e){}
+  }
+  try{ if(typeof window.ym === 'function') window.ym(YM_ID, 'params', { alfa_offer:OFFER, alfa_seg:SEG, alfa_ch:CH, alfa_cid:CID }); }catch(e){}
+
+  // ====== УТИЛИТЫ ======
+  var app = document.getElementById('app');
+  var sticky = document.getElementById('sticky');
+  function h(tag, attrs, kids){
+    var e = document.createElement(tag);
+    for(var k in (attrs||{})){
+      if(k === 'class') e.className = attrs[k];
+      else if(k === 'text') e.textContent = attrs[k];
+      else if(k === 'html') e.innerHTML = attrs[k];
+      else if(k.indexOf('on') === 0) e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    (kids||[]).forEach(function(c){ if(c != null) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return e;
+  }
+  function rub(n){ return Number(n).toLocaleString('ru-RU').replace(/,/g,' ').replace(/\s/g,' ') + ' ₽'; }
+  // Суммы не рвём на строки: «3 000 ₽» держится вместе.
+  function nb(s){ return String(s).replace(/(\d) (?=\d{3}\b)/g, '$1 ').replace(/ ₽/g, ' ₽'); }
+  function fill(s){ return nb(String(s).replace(/X%/g, X).replace(/Y%/g, Y)); }
+  // Правило дизайн-системы: в заголовках, подзаголовках, плашках и подписях точки в конце нет.
+  // Многоточие и вопрос не трогаем. Абзацы — FAQ, футер, текст заглушки — пишутся как текст.
+  function nodot(s){ return String(s).replace(/([^.])\.\s*$/, '$1'); }
+  function line(s){ return nodot(fill(s)); }
+  function mount(node, white){
+    app.innerHTML = ''; app.appendChild(node);
+    document.body.classList.toggle('white', !!white);
+    window.scrollTo(0,0);
+  }
+
+  // Иконки — тонкий контур, графитом: как в списках приложения, без цветных заливок.
+  var ICON = {
+    limit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M6 15l4-4 3 3 5-6"/></svg>',
+    shop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 9h14l-1.3 10.5a1 1 0 0 1-1 .9H7.3a1 1 0 0 1-1-.9z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+    stop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+    card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18"/></svg>',
+    chevron:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  // Знак Альфы: буква и черта под ней.
+  var LOGO = '<svg viewBox="0 0 22 28" aria-hidden="true"><path fill="currentColor" d="M8.7 0h4.6l6.9 19.6h-4.5l-1.5-4.4H7.8l-1.5 4.4H1.8L8.7 0zm-.3 11.6h5.2L11 4.2 8.4 11.6z"/><rect fill="currentColor" x="1.8" y="23.2" width="18.4" height="3.8"/></svg>';
+
+  // ====== ЛЕНДИНГ ======
+  function card(opts){
+    opts = opts || {};
+    return h('div', { class:'card' + (opts.muted ? ' muted' : '') + (opts.small ? ' small' : '') }, [
+      h('div', { class:'card-top' }, [ h('span', { class:'logo', html: LOGO }), opts.small ? null : h('span', { class:'card-kind', text: opts.muted ? 'Основная' : 'Агентская · виртуальная' }) ]),
+      h('div', { class:'card-bottom' }, [ h('span', { class:'num', text: opts.muted ? '·· 4821' : '·· 0712' }), h('span', { class:'mir', text:'МИР' }) ])
+    ]);
+  }
+  // Пуш банка — как системное уведомление: иконка приложения, отправитель, время.
+  function push(text, tone){
+    return h('div', { class:'push' + (tone ? ' ' + tone : '') }, [
+      h('span', { class:'app-icon', html: LOGO }),
+      h('div', { class:'push-body' }, [
+        h('div', { class:'push-head' }, [ h('b', { text:'Альфа-Банк' }), h('span', { text:'сейчас' }) ]),
+        h('div', { class:'push-text', text: line(text) })
+      ])
+    ]);
+  }
+  function priceChart(){
+    // Цена за 9 дней, по одной шкале: 11 000 ₽ — низ, 14 500 ₽ — верх.
+    var pts = [13990,13790,13990,13490,12990,13190,12490,11990,11490];
+    var W=320, H=140, L=4, R=4, T=24, B=10, lo=11000, hi=14500;
+    var x = function(i){ return L + (W-L-R) * i / (pts.length-1); };
+    var y = function(v){ return T + (H-T-B) * (hi - v) / (hi - lo); };
+    var path = pts.map(function(v,i){ return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    var cy = y(12000), lx = x(pts.length-1), ly = y(11490);
+    return h('div', { class:'chart', html:
+      '<div class="chart-head"><span>Наушники · 9 дней</span><b>11 490 ₽</b></div>' +
+      '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Цена товара снижалась с 13 990 до 11 490 рублей и опустилась ниже потолка 12 000 рублей">' +
+      '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+cy+'" y2="'+cy+'" stroke="rgba(4,4,19,.55)" stroke-width="1" stroke-dasharray="4 4"/>' +
+      '<text x="'+L+'" y="'+(cy-6)+'" font-size="12" fill="rgba(4,4,19,.55)" font-family="system-ui,-apple-system,Roboto,Arial">Ваш потолок · 12 000 ₽</text>' +
+      '<path d="'+path+'" fill="none" stroke="#212124" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+      '<circle cx="'+lx+'" cy="'+ly+'" r="5" fill="#ef3124" stroke="#fff" stroke-width="2"/>' +
+      '</svg>' +
+      '<div class="chart-foot">Куплено · 11 490 ₽</div>' });
+  }
+  function visual(kind){
+    var v = h('div', { class:'stage stage-' + kind });
+    if(kind === 'feed'){
+      v.appendChild(card());
+      v.appendChild(h('div', { class:'stack' }, [ push('Помощник заказал продукты · 3 840 ₽'), push('Помощник продлил подписку · 299 ₽') ]));
+    } else if(kind === 'chart'){
+      v.appendChild(card({ small:true })); v.appendChild(priceChart());
+    } else if(kind === 'twocards'){
+      v.appendChild(h('div', { class:'pair' }, [
+        h('div', { class:'pair-col' }, [ card({ muted:true, small:true }), h('div', { class:'owner', html: ICON.stop + '<span>Только у вас</span>' }) ]),
+        h('div', { class:'pair-col' }, [ card({ small:true }), h('ul', { class:'rules' }, [
+          h('li', { text: fill('10 000 ₽ в месяц') }), h('li', { text:'2 магазина' }), h('li', { text: fill('Подтверждение от 3 000 ₽') }) ]) ])
+      ]));
+    } else if(kind === 'cashback'){
+      v.appendChild(card());
+      v.appendChild(h('div', { class:'counter' }, [ h('span', { text:'Кэшбэк за месяц' }), h('b', { text: fill('1 240 ₽') }),
+                                                    h('small', { text: fill('Покупки помощника · X%') }) ]));
+    }
+    return v;
+  }
+  function exampleItem(it){
+    if(it.t === 'user') return h('div', { class:'bubble user', text: nb(it.text) });
+    if(it.t === 'bot')  return h('div', { class:'bubble bot' }, [ h('span', { class:'who', text: it.when ? 'Помощник · ' + it.when : 'Помощник' }), nb(it.text) ]);
+    if(it.t === 'notif') return push(it.text, it.tone);
+    if(it.t === 'confirm') return h('div', { class:'confirm' }, [
+      h('div', { class:'push-head' }, [ h('b', { text:'Подтверждение покупки' }) ]), h('div', { text: line(it.text) }),
+      h('div', { class:'acts', 'aria-hidden':'true' }, [ h('span', { text:'Отклонить' }), h('span', { text:'Разрешить' }) ]) ]);
+    if(it.t === 'compare') return h('div', { class:'compare' }, it.cols.map(function(c, k){
+      var m = fill(c.text).split(' → ');
+      return h('div', { class: k ? 'hi' : '' }, [ h('span', { text: c.head }), h('b', { text: m[1] || '' }), h('small', { text: m[0] }) ]);
+    }));
+    return null;
+  }
+
+  // Общие блоки — одни на все лендинги, слово в слово по ТЗ. Менять под оффер нельзя.
+  var HOW = [
+    ['Задайте правила', 'Бюджет на месяц, максимум на одну покупку, разрешенные магазины и категории'],
+    ['Подключите помощника', 'Выберите ИИ-помощника, которым уже пользуетесь, или помощника Альфы'],
+    ['Он покупает, вы в курсе', 'О каждой покупке приходит уведомление, а карту можно заблокировать в один тап']
+  ];
+  var CONTROL = [
+    ['limit','Лимиты','Бюджет на месяц и потолок на одну покупку'],
+    ['shop','Только ваши магазины','Помощник платит только там, где вы разрешили'],
+    ['check','Подтверждение','Сами решаете: спрашивать каждый раз, от определенной суммы или не спрашивать'],
+    ['stop','Блокировка в один тап','Остановите помощника в любой момент в приложении'],
+    ['card','Отдельные реквизиты','Номер основной карты помощник не узнает']
+  ];
+  var FAQ = [
+    ['Кто отвечает, если ИИ купит не то?', 'Карта ограничена вашими правилами: банк отклонит покупку сверх лимита или в магазине, который вы не разрешили. Условия возврата опубликуем при запуске'],
+    ['С какими помощниками это работает?', 'Мы готовим подключение популярных ИИ-помощников и встроенного помощника Альфы. Отметьте нужного при сборке карты — это поможет нам выбрать, с кого начать'],
+    ['Где помощник может платить?', 'В интернет-магазинах и сервисах, которые принимают карты «Мир». Список разрешенных магазинов задаете вы'],
+    ['Это безопасно для основной карты?', 'Да. У помощника своя виртуальная карта со своими реквизитами и лимитом. Реквизиты основной карты ему не передаются']
+  ];
+
+  var maxScroll = 0, faqOpened = [];
+  function scrollDepth(){
+    var d = document.documentElement, total = d.scrollHeight - innerHeight;
+    return total > 0 ? Math.min(100, Math.round(100 * scrollY / total)) : 100;
+  }
+  // Липкая кнопка появляется после первого скролла, но прячется, пока в кадре
+  // кнопка hero или финального призыва: две одинаковые кнопки подряд не нужны.
+  var ctaInView = 0;
+  function onLandingScroll(){
+    maxScroll = Math.max(maxScroll, scrollDepth());
+    sticky.classList.toggle('on', scrollY > 40 && ctaInView === 0);
+  }
+  function watchCtas(){
+    if(!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ ctaInView += e.isIntersecting ? 1 : -1; if(ctaInView < 0) ctaInView = 0; });
+      onLandingScroll();
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#app [data-cta]'), function(b){ io.observe(b); });
+  }
+
+  function renderLanding(){
+    var C = CONFIG.hero, E = CONFIG.example;
+    var s = h('div', { class:'screen' });
+
+    // Блок 1. Hero
+    s.appendChild(h('section', { class:'group hero' }, [
+      visual(C.visual),
+      h('div', { class:'hero-text' }, [
+        h('p', { class:'eyebrow' }, [ 'Агентская карта', h('span', { class:'badge', text:'Новое' }) ]),
+        h('h1', { text: fill(C.title) }),
+        h('p', { class:'sub', text: line(C.sub) }),
+        h('ul', { class:'tags' }, C.chips.map(function(c){ return h('li', { text: line(c) }); }))
+      ]),
+      h('button', { class:'btn', 'data-cta':'hero', text:'Собрать свою карту' }),
+      h('p', { class:'micro', text:'Займет меньше минуты' })
+    ]));
+
+    // Блок 2. Как это работает
+    s.appendChild(h('section', { class:'group' }, [
+      h('h2', { text:'Как это работает' }),
+      h('ol', { class:'stepper' }, HOW.map(function(st, i){
+        return h('li', {}, [ h('span', { class:'n', text: String(i+1) }), h('div', {}, [ h('b', { text: st[0] }), h('p', { text: line(st[1]) }) ]) ]);
+      }))
+    ]));
+
+    // Блок 3. Пример из жизни
+    var thread = h('div', { class:'thread' });
+    E.items.forEach(function(it){ var n = exampleItem(it); if(n) thread.appendChild(n); });
+    s.appendChild(h('section', { class:'group' }, [
+      h('h2', { text:'Как это выглядит в жизни' }),
+      h('span', { class:'rule', text: fill(E.rule) }),
+      thread,
+      h('p', { class:'caption', text: line(E.caption) })
+    ]));
+
+    // Блок 4. Вы под контролем
+    s.appendChild(h('section', { class:'group' }, [
+      h('h2', { text:'Помощник тратит только то, что вы разрешили' }),
+      h('p', { class:'sub', text: line('Агентская карта — отдельная виртуальная карта. Основная карта остается только у вас') }),
+      h('ul', { class:'cells' }, CONTROL.map(function(c){
+        return h('li', {}, [ h('span', { class:'ico', html: ICON[c[0]] }), h('div', {}, [ h('b', { text: nodot(c[1]) }), h('span', { text: line(c[2]) }) ]) ]);
+      }))
+    ]));
+
+    // Блок 5. Частые вопросы — аккордеон, все свернуты
+    var faq = h('section', { class:'group' }, [ h('h2', { text:'Частые вопросы' }) ]);
+    FAQ.forEach(function(q, i){
+      var d = h('details', { class:'faq' }, [ h('summary', {}, [ h('span', { text: q[0] }), h('i', { html: ICON.chevron }) ]), h('p', { text: q[1] }) ]);
+      d.addEventListener('toggle', function(){
+        if(d.open && faqOpened.indexOf(i+1) < 0){ faqOpened.push(i+1); once('faq_open', { step:'landing', value:'q' + (i+1), text: q[0] }, 'q' + (i+1)); }
+      });
+      faq.appendChild(d);
+    });
+    s.appendChild(faq);
+
+    // Блок 6. Финальный призыв
+    s.appendChild(h('section', { class:'group' }, [
+      h('h2', { text:'Соберите свою Агентскую карту' }),
+      h('p', { class:'sub', text: line('Выберите, что поручить помощнику, и задайте правила') }),
+      h('button', { class:'btn', 'data-cta':'final', text:'Собрать свою карту' })
+    ]));
+
+    // Блок 7. Футер
+    if(CONFIG.footerExtra) s.appendChild(h('div', { class:'footer' }, [ h('p', { text: CONFIG.footerExtra }) ]));
+
+    mount(s);
+    sticky.hidden = false;
+    window.addEventListener('scroll', onLandingScroll, { passive:true });
+    watchCtas();
+  }
+
+  // ====== КОНСТРУКТОР ======
+  var STEPS = [
+    { n:1, title:'Что поручить помощнику?', hint:'Можно выбрать несколько', multi:true, top:true, other:true,
+      opts:['Покупки на маркетплейсах','Продукты и доставка','Подписки и сервисы','Билеты и путешествия','ЖКХ, связь, штрафы',
+            'Купить, когда упадет цена','Подарки','Расходы ребенка или семьи','Другое'] },
+    { n:2, title:'Какой помощник будет платить?', multi:false,
+      opts:['GigaChat','Алиса','ChatGPT, Claude или другие зарубежные','Свой бот или автоматизация',
+            'Помощник Альфы (встроенный в приложение)','Пока не пользуюсь, хочу помощника от Альфы'] },
+    { n:3, title:'Бюджет помощника', sliders:true },
+    { n:4, title:'Сколько свободы дать?', multi:false, autonomy:true,
+      opts:['Спрашивать перед каждой покупкой','Спрашивать, если покупка дороже ___ ₽','Покупать самому в рамках правил'] }
+  ];
+  var answers = {};   // ответы по шагам — для сводки на экране цены
+  var where = 'landing';
+
+  function head(st, title){
+    return [ h('div', { class:'progress', 'aria-hidden':'true' }, STEPS.map(function(_, k){ return h('i', { class: k < st.n ? 'on' : '' }); })),
+             h('p', { class:'stepno', text:'Шаг ' + st.n + ' из ' + STEPS.length }),
+             h('h2', { class:'screen-title', text: title || st.title }),
+             st.hint && !title ? h('p', { class:'sub', text: st.hint }) : null ];
+  }
+  function actions(primary, onPrimary, onSkip){
+    var btn = h('button', { class:'btn', text: primary, onclick: onPrimary });
+    var wrap = h('div', { class:'actions' }, [ h('div', { class:'in' }, [ btn, onSkip ? h('button', { class:'btn ghost', text:'Пропустить', onclick: onSkip }) : null ]) ]);
+    return { node: wrap, btn: btn };
+  }
+  // Вариант ответа — ячейка списка, контрол справа, как в настройках приложения.
+  function optButton(label, radio, pressed, onclick){
+    return h('button', { class:'opt' + (radio ? ' radio' : ''), type:'button', 'aria-pressed': pressed ? 'true' : 'false', onclick: onclick },
+             [ h('span', { class:'opt-label', text: label }), h('span', { class:'mark' }) ]);
+  }
+
+  function goStep(i){
+    var st = STEPS[i];
+    where = 'b' + st.n;
+    backTo = function(){ if(i === 0) showLanding(); else goStep(i - 1); };
+    once('page_view', { step: st.n }, 'step' + st.n);
+    if(st.sliders) return renderSliders(st, i);
+    var s = h('div', { class:'screen' }, head(st));
+    var chosen = [], otherText = '', amount = '';
+    var list = h('div', { class:'list' });
+    var otherField = st.other ? h('input', { class:'field', id:'other-' + st.n, type:'text', maxlength:'200', placeholder:'Что ещё поручили бы помощнику?', hidden:'' }) : null;
+    var amountRow = null, amountField = null;
+    if(st.autonomy){
+      amountField = h('input', { class:'field', id:'amount-4', type:'number', inputmode:'numeric', min:'0', step:'100', placeholder:'Сумма, ₽' });
+      amountRow = h('div', { class:'inline-amount', hidden:'' }, [ amountField ]);
+    }
+    var act = actions('Дальше', function(){
+      var val = chosen.slice();
+      var payload = { step: st.n, value: val.join(' | ') };
+      if(st.other && val.indexOf('Другое') >= 0){ otherText = otherField.value.trim(); payload.text = otherText; }
+      if(st.autonomy && val[0] === st.opts[1]){ amount = amountField.value.trim(); payload.text = amount; payload.amount = amount; }
+      answers[st.n] = { values: val, text: otherText, amount: amount };
+      if(st.top && val.length === 1){ answers[st.n].top = val[0]; payload.top = val[0]; }
+      once('click_continue', payload, 'step' + st.n);
+      if(st.top && val.length >= 2) return renderTop(st, i, val);
+      next(i);
+    }, function(){
+      answers[st.n] = { skipped:true };
+      once('click_skip', { step: st.n }, 'step' + st.n);
+      next(i);
+    });
+    act.btn.disabled = true;
+
+    st.opts.forEach(function(label){
+      var b = optButton(label.replace('___', '…'), !st.multi, false, function(){
+        if(st.multi){
+          var k = chosen.indexOf(label);
+          if(k >= 0) chosen.splice(k,1); else chosen.push(label);
+          b.setAttribute('aria-pressed', chosen.indexOf(label) >= 0 ? 'true' : 'false');
+        } else {
+          chosen = [label];
+          Array.prototype.forEach.call(list.querySelectorAll('.opt'), function(o){ o.setAttribute('aria-pressed','false'); });
+          b.setAttribute('aria-pressed','true');
+        }
+        if(otherField) otherField.hidden = chosen.indexOf('Другое') < 0;
+        if(amountRow) amountRow.hidden = chosen[0] !== st.opts[1];
+        act.btn.disabled = chosen.length === 0;
+      });
+      list.appendChild(b);
+      if(st.autonomy && label === st.opts[1]) list.appendChild(amountRow);
+    });
+    s.appendChild(list);
+    if(otherField) s.appendChild(otherField);
+    s.appendChild(act.node);
+    mount(s);
+  }
+
+  // «Что из этого важнее всего?» — один вариант среди выбранных.
+  // Отдельного события в ГА нет — это продолжение шага 1, ответ пишем только в таблицу.
+  function renderTop(st, i, val){
+    backTo = function(){ goStep(i); };
+    var s = h('div', { class:'screen' }, head(st, 'Что из этого важнее всего?'));
+    var pick = null, list = h('div', { class:'list' });
+    var act = actions('Дальше', function(){
+      answers[st.n].top = pick;
+      send('answer_top', { step: st.n, value: pick, top: pick }, 'step' + st.n, true);
+      next(i);
+    }, null);
+    act.btn.disabled = true;
+    val.forEach(function(label){
+      var b = optButton(label, true, false, function(){
+        pick = label;
+        Array.prototype.forEach.call(list.querySelectorAll('.opt'), function(o){ o.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true'); act.btn.disabled = false;
+      });
+      list.appendChild(b);
+    });
+    s.appendChild(list); s.appendChild(act.node);
+    mount(s);
+  }
+
+  function renderSliders(st, i){
+    var monthly = 10000, single = 3000, moved = { m:false, s:false };
+    var mOut = h('b', { text: rub(monthly) }), sOut = h('b', { text: rub(single) });
+    var m = h('input', { type:'range', id:'slider-month', min:'1000', max:'50000', step:'500', value:String(monthly), 'aria-label':'Лимит в месяц' });
+    var sg = h('input', { type:'range', id:'slider-single', min:'500', max:String(monthly), step:'500', value:String(single), 'aria-label':'Максимум на одну покупку' });
+    var sEnd = h('span', { text: rub(monthly) });
+    m.addEventListener('input', function(){
+      monthly = +m.value; moved.m = true; mOut.textContent = rub(monthly);
+      sg.max = String(monthly); sEnd.textContent = rub(monthly);
+      if(single > monthly){ single = monthly; sg.value = String(single); sOut.textContent = rub(single); }
+    });
+    sg.addEventListener('input', function(){ single = +sg.value; moved.s = true; sOut.textContent = rub(single); });
+    var s = h('div', { class:'screen' }, head(st).concat([
+      h('div', { class:'list sliders' }, [
+        h('div', { class:'slider' }, [ h('label', { for:'slider-month' }, [ h('span', { text:'Лимит в месяц' }), mOut ]), m,
+                                       h('div', { class:'ends' }, [ h('span', { text: rub(1000) }), h('span', { text: rub(50000) }) ]) ]),
+        h('div', { class:'slider' }, [ h('label', { for:'slider-single' }, [ h('span', { text:'Максимум на одну покупку' }), sOut ]), sg,
+                                       h('div', { class:'ends' }, [ h('span', { text: rub(500) }), sEnd ]) ])
+      ])
+    ]));
+    var act = actions('Дальше', function(){
+      answers[3] = { monthly: monthly, single: single };
+      // moved — двигал ли человек ползунки: значение по умолчанию тоже ответ, но более слабый
+      once('click_continue', { step:3, value: monthly + ' / ' + single, monthly: monthly, single: single,
+                               moved: (moved.m ? 'm' : '') + (moved.s ? 's' : '') || 'none' }, 'step3');
+      next(i);
+    }, function(){ answers[3] = { skipped:true }; once('click_skip', { step:3 }, 'step3'); next(i); });
+    s.appendChild(act.node);
+    mount(s);
+  }
+
+  function next(i){ if(i + 1 < STEPS.length) goStep(i + 1); else renderPrice(); }
+
+  // ====== ЭКРАН ЦЕНЫ ======
+  function short(s){ return s ? s.replace(' (встроенный в приложение)', '') : s; }
+  function renderPrice(){
+    where = 'price';
+    backTo = function(){ goStep(STEPS.length - 1); };
+    var a1 = answers[1] || {}, a2 = answers[2] || {}, a3 = answers[3] || {}, a4 = answers[4] || {};
+    var scenario = a1.skipped ? 'Не выбрано' : (a1.top || (a1.values || [])[0] || 'Не выбрано');
+    if(scenario === 'Другое' && a1.text) scenario = a1.text;
+    var mode = a4.skipped || !a4.values ? 'Не выбран' :
+      (a4.values[0] === STEPS[3].opts[1] ? 'Спрашивать, если дороже ' + (a4.amount ? rub(a4.amount) : 'заданной суммы') : a4.values[0]);
+    var limit = a3.skipped || !a3.monthly ? 'Не задан' : rub(a3.monthly) + ' в месяц, до ' + rub(a3.single) + ' за покупку';
+    var s = h('div', { class:'screen' }, [
+      h('h2', { class:'screen-title', text:'Ваша Агентская карта' }),
+      h('div', { class:'summary-card' }, [ card({ small:true }), h('dl', { class:'summary' }, [
+        h('dt', { text:'Сценарий' }), h('dd', { text: scenario }),
+        h('dt', { text:'Помощник' }), h('dd', { text: a2.skipped || !a2.values ? 'Не выбран' : short(a2.values[0]) }),
+        h('dt', { text:'Лимит' }), h('dd', { text: limit }),
+        h('dt', { text:'Режим' }), h('dd', { text: mode })
+      ]) ]),
+      h('div', { class:'list' }, [
+        h('div', { class:'price' }, [ h('span', { text:'Обслуживание' }), h('b', { text: PRICE_TEXT }) ])
+      ])
+    ]);
+    var act = actions('Получить ранний доступ', function(){
+      if(!TEST_MODE) lsSet(K('done'), '1');   // тестовый проход не блокирует лендинг
+      once('click_getaccess', { step:'price', value: PRICE_TEXT });
+      renderFinal();
+    }, null);
+    s.appendChild(act.node);
+    mount(s);
+  }
+
+  // ====== ФИНАЛ: раскрытие сразу после клика, как заглушка 8240 ======
+  function renderFinal(revisit){
+    where = 'final';
+    backTo = null;
+    sticky.hidden = true;
+    once('end_page_view', { step:'final', value: revisit ? 'revisit' : 'submit' });
+    var bonus = CONFIG.bonus ? ' Спасибо за интерес: ' + CONFIG.bonus : ' Спасибо за интерес!';
+    mount(h('div', { class:'screen' }, [
+      h('div', { class:'final-head' }, [
+        h('div', { class:'icon', html:'<svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true"><circle cx="48" cy="48" r="48" fill="#f2f3f5"/><path d="M33 30 H63 L48 48 Z" fill="#ef3124"/><path d="M33 66 H63 L48 48 Z" fill="#ef3124"/><path d="M31 30 H65 M31 66 H65" stroke="#ef3124" stroke-width="5" stroke-linecap="round"/></svg>' }),
+        h('h2', { text:'Пока изучаем спрос на сервис' }),
+        h('p', { text:'Вы в списке первой волны — напишем в приложении, когда сможете ее подключить.' + bonus })
+      ])
+    ]), true);
+  }
+
+  // ====== НАЗАД ======
+  // Кнопка в шапке ведет на предыдущий экран флоу, с лендинга и финала — из лендинга
+  var backTo = null;
+  function showLanding(){
+    where = 'landing'; backTo = null;
+    once('page_view_landing', { step:'landing' });
+    renderLanding();
+  }
+  document.getElementById('backBtn').addEventListener('click', function(){
+    if(backTo) backTo(); else history.back();
+  });
+
+  // ====== СТАРТ ======
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('[data-cta]');
+    if(!b || where !== 'landing') return;
+    maxScroll = Math.max(maxScroll, scrollDepth());
+    once('click_continue', { step:'landing', value: b.getAttribute('data-cta'), scroll: maxScroll, faq: faqOpened.join(',') });
+    window.removeEventListener('scroll', onLandingScroll);
+    sticky.hidden = true; sticky.classList.remove('on');
+    goStep(0);
+  });
+
+  // Прошедший флоу видит только финал
+  if(!TEST_MODE && lsGet(K('done')) === '1'){ renderFinal(true); return; }
+  showLanding();
+})();
+</script>
+</body>
+</html>
