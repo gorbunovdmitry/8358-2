@@ -615,7 +615,7 @@
       var val = chosen.slice();
       var payload = { step: st.n, value: val.join(' | ') };
       if(st.other && val.indexOf('Другое') >= 0){ otherText = otherField.value.trim(); payload.text = otherText; }
-      if(st.autonomy && val[0] === st.opts[1]){ amount = amountField.value.trim(); payload.text = amount; payload.amount = amount; }
+      if(st.autonomy && val[0] === st.opts[1]){ amount = amountField.value.trim(); payload.text = amount; payload.amount = amount; payload.value = st.opts[1].replace('___', amount || '…'); }
       answers[st.n] = { values: val, text: otherText, amount: amount };
       if(st.top && val.length === 1){ answers[st.n].top = val[0]; payload.top = val[0]; }
       once('click_continue', payload, 'step' + st.n);
