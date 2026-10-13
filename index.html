@@ -299,6 +299,9 @@
   var CH  = qs.get('ch')  || lsGet('alfa' + EXP + '_ch')  || '';
   if(qs.get('seg')) lsSet('alfa' + EXP + '_seg', SEG);
   if(qs.get('ch'))  lsSet('alfa' + EXP + '_ch', CH);
+  // Пишем только переходы с баннера (?ch=banner, запоминается для повторных заходов) и тестовые
+  // проходы. Ссылки, пересланные в чатах и почте, открывают сканеры безопасности — их не считаем.
+  var LOG_OK = TEST_MODE || CH === 'banner';
 
   // Обслуживание одинаковое во всех вариантах
   var PRICE_TEXT = 'Бесплатно';
@@ -311,6 +314,7 @@
   function gaName(ev, suffix){ return EXP + '_' + ev + (suffix ? '_' + suffix : '') + '_var' + VAR; }
   function send(ev, params, suffix, rowOnly){
     if(BOT) return;
+    if(!LOG_OK){ console.log('[' + EXP + '] не пишем: нет ?ch=banner —', gaName(ev, suffix)); return; }
     var n = gaName(ev, suffix);
     var p = {}; for(var a in base) p[a] = base[a]; for(var b in (params||{})) p[b] = params[b];
     if(!rowOnly){
@@ -761,8 +765,29 @@
   var backTo = null;
   function showLanding(){
     where = 'landing'; backTo = null;
-    once('page_view_landing', { step:'landing' });
     renderLanding();
+    armLandingView();
+  }
+
+  // Просмотр лендинга засчитываем, когда страница пробыла на экране 1,5 секунды подряд или
+  // человек начал с ней что-то делать. Сканеры ссылок открывают страницу и сразу закрывают.
+  var landingSeen = false, seenTimer = null;
+  function markLandingSeen(){
+    if(landingSeen) return;
+    landingSeen = true; clearTimeout(seenTimer);
+    once('page_view_landing', { step:'landing' });
+  }
+  function armLandingView(){
+    if(landingSeen) return;
+    var start = function(){
+      clearTimeout(seenTimer);
+      if(document.visibilityState === 'visible') seenTimer = setTimeout(markLandingSeen, 1500);
+    };
+    document.addEventListener('visibilitychange', start);
+    ['scroll','touchstart','pointerdown','keydown'].forEach(function(t){
+      window.addEventListener(t, markLandingSeen, { passive:true, once:true });
+    });
+    start();
   }
   document.getElementById('backBtn').addEventListener('click', function(){
     if(backTo) backTo(); else history.back();
@@ -772,6 +797,7 @@
   document.addEventListener('click', function(e){
     var b = e.target.closest && e.target.closest('[data-cta]');
     if(!b || where !== 'landing') return;
+    markLandingSeen();
     maxScroll = Math.max(maxScroll, scrollDepth());
     once('click_continue', { step:'landing', value: b.getAttribute('data-cta'), scroll: maxScroll, faq: faqOpened.join(',') });
     window.removeEventListener('scroll', onLandingScroll);
